@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RESOURCE_GROUP_NAME=udacity-final-excercise-rg
-STORAGE_ACCOUNT_NAME=storageaccountudacityfinal
+STORAGE_ACCOUNT_NAME=stgaccntudacityfinal
 CONTAINER_NAME=containerudacityfinal
 
 
