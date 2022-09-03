@@ -42,35 +42,34 @@ stages:
               appName: ''
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
-   - deployment: VMDeploy
-     displayName: VMDeploy
-     environment:
-       name:  Test
-       resourceType: VirtualMachine
+  - deployment: VMDeploy
+    displayName: VMDeploy
+    environment:
+      name:  Test
+      resourceType: VirtualMachine
   #     tags: TAG NAME
-     strategy:
-       runOnce:
-         deploy:
-           steps:
-           - task: Bash@3
-             displayName: 'Install Dependencies'
-             inputs:
-               targetType: 'inline'
-               script: |
-                 #! /bin/bash
-                
-                 sudo apt-get upgrade -y
-                 sudo apt-get install python3-pip -y
-                 sudo apt-get install unzip -y
-                 sudo apt-get install -y chromium-browser
-                 pip3 install selenium
-                 # download chrome driver
-                 FILE=chromedriver_linux64.zip
-                 if [ -f "$FILE" ]; then
-                   echo "$FILE exists."
-                 else
-                   wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip
-                 fi
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: Bash@3
+            displayName: 'Install Dependencies'
+            inputs:
+              targetType: 'inline'
+              script: |
+                #! /bin/bash
+                sudo apt-get upgrade -y
+                sudo apt-get install python3-pip -y
+                sudo apt-get install unzip -y
+                sudo apt-get install -y chromium-browser
+                pip3 install selenium
+                # download chrome driver
+                FILE=chromedriver_linux64.zip
+                if [ -f "$FILE" ]; then
+                  echo "$FILE exists."
+                else
+                  wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip
+                fi
                  
                  # install chrome driver
                  unzip chromedriver_linux64.zip
