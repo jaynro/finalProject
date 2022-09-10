@@ -2,19 +2,38 @@ name: Azure Pipelines
 variables:
   python.version: '3.7.6'
 stages:
-- stage: Build
+- stage: Provision
   jobs:
-  - job: Build
+  - job: provision_azure_infrastructure
+    displayName: Provision Azure Infrastructure
     pool:
       name: selfHostedAgent
-    steps:
+      vmImage: 'ubuntu-latest'
+    steps:    
+    
     # Needed for Terraform VM deployment
     - task: InstallSSHKey@0
       inputs:
         knownHostsEntry: 'default'
         sshKeySecureFile: 'my_key'
-   #      sshPublicKey: 'PUBLIC_KEY'
-         
+   #      sshPublicKey: 'PUBLIC_KEY'      
+#    steps:
+#    - task: DownloadSecureFile@1
+#      name: tfvardef
+#      displayName: Download terraform.tfvars
+#      inputs:
+
+#        secureFile: 'terraform.tfvars' 
+
+
+- stage: Build
+  jobs:
+  - job: Build
+    displayName: Building Artifacts
+    pool:
+      name: selfHostedAgent
+      vmImage: 'ubuntu-latest'
+    steps:
     - task: ArchiveFiles@2
       displayName: 'Archive FakeRestAPI'
       inputs:
@@ -22,12 +41,14 @@ stages:
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip'
+        verbose: true
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId)-fakerestapi.zip
       displayName: 'Upload Package'
       artifact: drop-fakerestapi
-- stage:
+- stage: Deployment
   jobs:
   - deployment: FakeRestAPI
+    displayName: Deploying FakeRestAPI
     pool:
       vmImage: 'ubuntu-latest'
     environment: 'TEST'
@@ -44,7 +65,7 @@ stages:
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip
   
   - deployment: VMDeploy
-    displayName: VMDeploy
+    displayName: Deploying VM
     environment:
       name:  Test
       resourceType: VirtualMachine
