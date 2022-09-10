@@ -22,7 +22,7 @@ stages:
 #      name: tfvardef
 #      displayName: Download terraform.tfvars
 #      inputs:
-
+# test to scheck now sp
 #        secureFile: 'terraform.tfvars' 
 
 
