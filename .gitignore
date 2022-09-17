@@ -1,2 +1,11 @@
 .DS_Store
+
 Project_Starter_Resources/terraform/environments/test/.terraform/
+Project_Starter_Resources/terraform/environments/test/*.tfstate
+Project_Starter_Resources/terraform/environments/test/*.tfstate.backup
+Project_Starter_Resources/terraform/environments/test/*.tfstate.lock.info
+
+
+# Contains sensitive Azure account information
+Project_Starter_Resources/terraform/environments/test/terraform.tfvars
+
