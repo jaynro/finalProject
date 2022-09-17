@@ -8,4 +8,5 @@ Project_Starter_Resources/terraform/environments/test/*.tfstate.lock.info
 
 # Contains sensitive Azure account information
 Project_Starter_Resources/terraform/environments/test/terraform.tfvars
+Project_Starter_Resources/setup_azure.sh
 
