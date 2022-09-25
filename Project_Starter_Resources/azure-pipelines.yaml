@@ -46,7 +46,7 @@ stages:
         backendAzureRmStorageAccountName: 'stgaccntudacityfinal'
         backendAzureRmContainerName: 'containerudacityfinal'
         backendAzureRmKey: 'terraform.tfstat'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Project_Starter_Resources/terraform/environments/test'
 
     - task: TerraformTaskV1@0
       displayName: Terraform Apply
