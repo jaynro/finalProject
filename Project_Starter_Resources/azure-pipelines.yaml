@@ -5,7 +5,7 @@ stages:
 - stage: Provision
   jobs:
   - job: provision_azure_infrastructure
-    displayName: Provision Azure Infrastructure
+    displayName: Provisioning of  Azure Infrastructure
     pool:
       name: selfHostedAgent
       vmImage: 'ubuntu-latest'
@@ -23,14 +23,37 @@ stages:
         knownHostsEntry: 'default'
         sshKeySecureFile: 'my_key'
    #      sshPublicKey: 'PUBLIC_KEY'      
-#    steps:
-#    - task: DownloadSecureFile@1
-#      name: tfvardef
-#      displayName: Download terraform.tfvars
-#      inputs:
-# test to scheck now sp
-#        secureFile: 'terraform.tfvars' 
 
+    - bash: |
+        cp $(Agent.TempDirectory)/terraform.tfvars $(System.DefaultWorkingDirectory)/terraform/environments/test
+      displayName: Copy terraform.tfvars
+
+    - task: TerraformInstaller@0
+      displayName: Installing Terraform
+      inputs:
+        terraformVersion: '1.1.8'
+
+    - task: TerraformTaskV1@0
+      displayName: Running Terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: 'azure-final-sc'
+        backendAzureRmResourceGroupName: 'udacity-final-excercise-rg'
+        backendAzureRmStorageAccountName: 'stgaccntudacityfinal'
+        backendAzureRmContainerName: 'containerudacityfinal'
+        backendAzureRmKey: 'terraform.tfstat'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+
+    - task: TerraformTaskV1@0
+      displayName: Terraform Apply
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        commandOptions: |
+          -auto-approve 
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
+        environmentServiceNameAzureRM: 'azure-final-sc'
 
 - stage: Build
   jobs:
