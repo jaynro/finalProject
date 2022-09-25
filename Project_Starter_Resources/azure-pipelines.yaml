@@ -28,6 +28,10 @@ stages:
         cp $(Agent.TempDirectory)/terraform.tfvars $(System.DefaultWorkingDirectory)/terraform/environments/test
       displayName: Copy terraform.tfvars
 
+# The pipeline references a task called 'TerraformTaskV1'. 
+# This usually indicates the task isn't installed, and you may be able to install it from the Marketplace: https://marketplace.visualstudio.com.
+# (Task version 0, job 'provision_azure_infrastructure', step ''.)
+Azure Pipelines
     - task: TerraformInstaller@0
       displayName: Installing Terraform
       inputs:
