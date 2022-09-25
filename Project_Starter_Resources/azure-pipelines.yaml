@@ -25,7 +25,7 @@ stages:
    #      sshPublicKey: 'PUBLIC_KEY'      
 
     - bash: |
-        cp $(Agent.TempDirectory)/terraform.tfvars $(System.DefaultWorkingDirectory)/terraform/environments/test
+        cp $(Agent.TempDirectory)/terraform.tfvars $(System.DefaultWorkingDirectory)/Project_Starter_Resources/terraform/environments/test
       displayName: Copy terraform.tfvars
 
 # The pipeline references a task called 'TerraformTaskV1'. 
